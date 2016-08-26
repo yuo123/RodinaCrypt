@@ -34,8 +34,8 @@ namespace RodinaCrypt
             }
             return ret;
         }
-
-        private CipherPossibilities GetPossibilitiesForCode(int code)
+        
+        public CipherPossibilities GetPossibilitiesForCode(int code)
         {
             return this.Find(p => p.Code == code);
         }
@@ -153,7 +153,7 @@ namespace RodinaCrypt
             Buffer.BlockCopy(data, 0, ctext, 0, data.Length * 4);
             string text = new string(ctext);
 
-            var count = new SortedList<int, ulong>(codelist.Length * codelist.Length, new DuplicateKeyComparer<int>());
+            var count = new SortedList<int, ulong>(codelist.Length * codelist.Length, new DescendingDuplicateKeyComparer<int>());
             for (int i = 0; i < codelist.Length; i++)
             {
                 for (int j = 0; j < codelist.Length; j++)

@@ -43,10 +43,11 @@
             this.charsetView = new System.Windows.Forms.DataGridView();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openCharsetDialog = new System.Windows.Forms.OpenFileDialog();
-            this.codeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cypherDictionaryBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.openImageDialog = new System.Windows.Forms.OpenFileDialog();
+            this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.valueColoumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.codeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.charsetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             label1 = new System.Windows.Forms.Label();
             tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -55,7 +56,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.textSizeBar)).BeginInit();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.charsetView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cypherDictionaryBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.charsetBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -192,21 +193,22 @@
             this.charsetView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.charsetView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.codeDataGridViewTextBoxColumn,
-            this.valueDataGridViewTextBoxColumn});
-            this.charsetView.DataSource = this.cypherDictionaryBindingSource;
-            this.charsetView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.charsetView.Location = new System.Drawing.Point(392, 0);
+            this.valueColoumn});
+            this.charsetView.DataSource = this.charsetBindingSource;
+            this.charsetView.Location = new System.Drawing.Point(376, 0);
             this.charsetView.MultiSelect = false;
             this.charsetView.Name = "charsetView";
             this.charsetView.RowHeadersVisible = false;
             this.charsetView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.charsetView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.charsetView.Size = new System.Drawing.Size(117, 500);
+            this.charsetView.Size = new System.Drawing.Size(133, 500);
             this.charsetView.TabIndex = 1;
             this.charsetView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.charsetView_CellEndEdit);
             this.charsetView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.charsetView_CellFormatting);
             this.charsetView.CellParsing += new System.Windows.Forms.DataGridViewCellParsingEventHandler(this.charsetView_CellParsing);
             this.charsetView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.charsetView_CellValueChanged);
+            this.charsetView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.charsetView_DataBindingComplete);
+            this.charsetView.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.charsetView_EditingControlShowing);
             this.charsetView.SelectionChanged += new System.EventHandler(this.charsetView_SelectionChanged);
             this.charsetView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.charsetView_KeyDown);
             this.charsetView.Leave += new System.EventHandler(this.charsetView_Leave);
@@ -219,6 +221,28 @@
             // 
             this.openCharsetDialog.Filter = "Text Files|*.txt|All Files|*.*";
             // 
+            // openImageDialog
+            // 
+            this.openImageDialog.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif;" +
+    " *.png";
+            // 
+            // dataGridViewComboBoxColumn1
+            // 
+            this.dataGridViewComboBoxColumn1.DataPropertyName = "Self";
+            this.dataGridViewComboBoxColumn1.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.dataGridViewComboBoxColumn1.HeaderText = "Value";
+            this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
+            this.dataGridViewComboBoxColumn1.ReadOnly = true;
+            this.dataGridViewComboBoxColumn1.Width = 40;
+            // 
+            // valueColoumn
+            // 
+            this.valueColoumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.valueColoumn.HeaderText = "Value";
+            this.valueColoumn.MaxDropDownItems = 100;
+            this.valueColoumn.Name = "valueColoumn";
+            this.valueColoumn.Width = 40;
+            // 
             // codeDataGridViewTextBoxColumn
             // 
             this.codeDataGridViewTextBoxColumn.DataPropertyName = "Code";
@@ -230,23 +254,9 @@
             this.codeDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             this.codeDataGridViewTextBoxColumn.Width = 57;
             // 
-            // valueDataGridViewTextBoxColumn
+            // charsetBindingSource
             // 
-            this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
-            this.valueDataGridViewTextBoxColumn.HeaderText = "Value";
-            this.valueDataGridViewTextBoxColumn.MaxInputLength = 10;
-            this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
-            this.valueDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.valueDataGridViewTextBoxColumn.Width = 40;
-            // 
-            // cypherDictionaryBindingSource
-            // 
-            this.cypherDictionaryBindingSource.DataSource = typeof(RodinaCrypt.CipherDictionary);
-            // 
-            // openImageDialog
-            // 
-            this.openImageDialog.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif;" +
-    " *.png";
+            this.charsetBindingSource.DataSource = typeof(RodinaCrypt.CipherPredictionDictionary);
             // 
             // MainForm
             // 
@@ -268,7 +278,7 @@
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.charsetView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cypherDictionaryBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.charsetBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -278,9 +288,7 @@
 
         private System.Windows.Forms.RichTextBox outBox;
         private System.Windows.Forms.DataGridView charsetView;
-        private System.Windows.Forms.BindingSource cypherDictionaryBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn codeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource charsetBindingSource;
         private System.Windows.Forms.TrackBar textSizeBar;
         private System.Windows.Forms.CheckBox wordWrapBox;
         private System.Windows.Forms.ToolStripMenuItem openMessageToolStripMenuItem;
@@ -290,6 +298,9 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.OpenFileDialog openCharsetDialog;
         private System.Windows.Forms.OpenFileDialog openImageDialog;
+        private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewComboBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn codeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewComboBoxColumn valueColoumn;
     }
 }
 

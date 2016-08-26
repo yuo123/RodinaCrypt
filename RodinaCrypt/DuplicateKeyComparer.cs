@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 namespace RodinaCrypt
 {
     //taken from http://stackoverflow.com/a/21886340
-    public class DuplicateKeyComparer<TKey> : IComparer<TKey> where TKey : IComparable
+    public class DescendingDuplicateKeyComparer<TKey> : IComparer<TKey> where TKey : IComparable
     {
         #region IComparer<TKey> Members
 
         public int Compare(TKey x, TKey y)
         {
-            int result = x.CompareTo(y);
+            int result = -x.CompareTo(y); //the minus reverses the order
 
             if (result == 0)
                 return 1;   // Handle equality as being greater

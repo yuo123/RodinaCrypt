@@ -33,6 +33,16 @@ namespace RodinaCrypt
 
             PrivateFontCollection pfc = InitFont();
             outBox.Font = new Font(pfc.Families[0], DefaultFont.Size, FontStyle.Regular);
+
+            valueColoumn.ValueType = typeof(CipherPossibilities);
+            valueColoumn.ValueMember = "DisplayPair";
+
+            charsetView.DataError += CharsetView_DataError;
+        }
+
+        private void CharsetView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            //e.ThrowException = true;
         }
 
         [DllImport("gdi32.dll")]
@@ -113,7 +123,7 @@ namespace RodinaCrypt
                     dict.Add(0xFF << 24 | Convert.ToInt32(hex, 16), c);
                 }
             }
-            charsetView.DataSource = dict.BindingList;
+            charsetBindingSource.DataSource = dict.BindingList;
         }
 
         public void SaveDictFile(CipherDictionary dict, string path)
@@ -163,7 +173,8 @@ namespace RodinaCrypt
             preDict = CipherPredictionDictionary.AggregateProbabilities(dicts, codelist);
             dict = preDict.MostLikely();
             dict.AddMissingValues(codelist);
-            charsetView.DataSource = dict.BindingList;
+
+            charsetBindingSource.DataSource = preDict;
         }
 
         private void UpdateOutput()
@@ -176,14 +187,24 @@ namespace RodinaCrypt
 
         private void charsetView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+            if (e.Value == null || e.Value is string)
+                return;
+
             if (e.ColumnIndex == 0)
                 e.Value = ((int)e.Value & 0x00FFFFFF).ToString("X6").ToUpper();
-            else if ((char)e.Value == '\r')
-                e.Value = "\\r";
-            else if ((char)e.Value == '\n')
-                e.Value = "\\n";
-            else if ((char)e.Value == (char)26)
-                e.Value = "EOF";
+            else
+            {
+                char value = ((KeyValuePair<char, double>)e.Value).Key;
+                if (value == '\r')
+                    e.Value = "\\r";
+                else if (value == '\n')
+                    e.Value = "\\n";
+                else if (value == (char)26)
+                    e.Value = "EOF";
+                else
+                    e.Value = value.ToString();
+                e.FormattingApplied = true;
+            }
         }
 
         private void charsetView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -193,22 +214,20 @@ namespace RodinaCrypt
 
         private void charsetView_CellParsing(object sender, DataGridViewCellParsingEventArgs e)
         {
-            if ((string)e.Value == "\\n")
-            {
+            string value = ((string)e.Value);
+            if (value.Length > 3) 
+                //we got the string representation of the pair
+                value = value.Substring(1, value.LastIndexOf(',') - 1);
+
+            if (value == "\\n")
                 e.Value = '\n';
-                e.ParsingApplied = true;
-            }
-            else if ((string)e.Value == "\\r")
-            {
+            else if (value == "\\r")
                 e.Value = '\r';
-                e.ParsingApplied = true;
-            }
-            else if ((string)e.Value == "EOF")
-            {
+            else if (value == "EOF")
                 e.Value = (char)26;
-                e.ParsingApplied = true;
-            }
-            e.Value = char.ToLower(((string)e.Value)[0]);
+
+            e.Value = char.ToLower(value[0]);
+            e.ParsingApplied = true;
         }
 
         private void textSizeBar_Scroll(object sender, EventArgs e)
@@ -278,25 +297,29 @@ namespace RodinaCrypt
             }
             else
             {
-                LockWindow(this.Handle);
                 ClearHighlight();
-                CipherPair pair;
-                if (charsetView.SelectedRows.Count > 0 && (pair = (CipherPair)charsetView.SelectedRows[0].DataBoundItem) != null)
+                LockWindow(this.Handle);
+                if (charsetView.SelectedRows.Count > 0)
                 {
-                    int newlines = 0;
-                    for (int i = 0; i < data.Length; i++)
+                    var poss = (CipherPossibilities)charsetView.SelectedRows[0].DataBoundItem;
+                    if (poss != null)
                     {
-                        if (data[i] == pair.Code)
+                        int charCode = poss.Code;
+                        int newlines = 0;
+                        for (int i = 0; i < data.Length; i++)
                         {
-                            outBox.Select(i - newlines, 1);
-                            outBox.SelectionBackColor = Color.Yellow;
+                            if (data[i] == charCode)
+                            {
+                                outBox.Select(i - newlines, 1);
+                                outBox.SelectionBackColor = Color.Yellow;
+                            }
+                            if (dict.GetPairForCode(data[i]).Value == '\r')
+                                newlines++;
                         }
-                        if (dict.GetPairForCode(data[i]).Value == '\r')
-                            newlines++;
+                        outBox.SelectionStart = 0;
+                        outBox.SelectionLength = 0;
+                        outBox.SelectionBackColor = Color.Black;
                     }
-                    outBox.SelectionStart = 0;
-                    outBox.SelectionLength = 0;
-                    outBox.SelectionBackColor = Color.Black;
                 }
                 LockWindow(IntPtr.Zero);
             }
@@ -388,6 +411,50 @@ namespace RodinaCrypt
                 dict.BindingList.ResetBindings();
                 this.Text = "Rodina Decryptor - " + Path.GetFileNameWithoutExtension(openImageDialog.FileName);
             }
+        }
+
+        private void charsetView_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            for (int i = 0; i < charsetView.Rows.Count; i++)
+            {
+                var comboBox = (DataGridViewComboBoxCell)charsetView.Rows[i].Cells[1];
+                comboBox.ReadOnly = false;
+                comboBox.DisplayMember = "Key";
+                UpdatePossibilities(i);
+            }
+        }
+
+        private void charsetView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            ComboBox cb = e.Control as ComboBox;
+            if (cb != null)
+            {
+                cb.DisplayMember = "Key";
+                cb.SelectedIndexChanged -= ValueSelectedindexChanged;
+                cb.SelectedIndexChanged += ValueSelectedindexChanged;
+            }
+        }
+
+        private void ValueSelectedindexChanged(object sender, EventArgs e)
+        {
+            var comboControl = (DataGridViewComboBoxEditingControl)sender;
+            CipherPossibilities poss = preDict[charsetView.CurrentCellAddress.Y];
+            poss[((KeyValuePair<char, double>)comboControl.SelectedItem).Key] = 1.0;
+            poss.BindingList.ResetBindings();
+            this.Validate();
+            charsetView.EndEdit();
+            UpdatePossibilities(charsetView.CurrentCellAddress.Y);
+        }
+
+        private void UpdatePossibilities(int row)
+        {
+            var comboBox = (DataGridViewComboBoxCell)charsetView.Rows[row].Cells[1];
+            comboBox.Items.Clear();
+            foreach (KeyValuePair<char, double> pair in preDict[row])
+            {
+                comboBox.Items.Add(pair);
+            }
+            comboBox.Value = preDict[row].DisplayPair;
         }
     }
 }

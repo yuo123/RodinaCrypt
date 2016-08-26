@@ -55,6 +55,7 @@
     <Compile Include="CipherPossibilities.cs" />
     <Compile Include="CipherPredictionDictionary.cs" />
     <Compile Include="DuplicateKeyComparer.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="KnownWordDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +70,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValueSortedDictionary.cs" />
     <EmbeddedResource Include="KnownWordDialog.resx">
       <DependentUpon>KnownWordDialog.cs</DependentUpon>
     </EmbeddedResource>
