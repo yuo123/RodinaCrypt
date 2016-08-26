@@ -33,6 +33,7 @@
             System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
             System.Windows.Forms.MenuStrip menuStrip1;
             System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
             this.wordWrapBox = new System.Windows.Forms.CheckBox();
             this.textSizeBar = new System.Windows.Forms.TrackBar();
             this.outBox = new System.Windows.Forms.RichTextBox();
@@ -40,17 +41,20 @@
             this.openSavedCharacterSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveDecodedMessageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCharacterSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.howDoIUseThisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hintsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.charsetView = new System.Windows.Forms.DataGridView();
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.openCharsetDialog = new System.Windows.Forms.OpenFileDialog();
             this.codeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cypherDictionaryBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openCharsetDialog = new System.Windows.Forms.OpenFileDialog();
             this.openImageDialog = new System.Windows.Forms.OpenFileDialog();
             label1 = new System.Windows.Forms.Label();
             tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             menuStrip1 = new System.Windows.Forms.MenuStrip();
             fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.textSizeBar)).BeginInit();
             menuStrip1.SuspendLayout();
@@ -80,13 +84,13 @@
             tableLayoutPanel1.Controls.Add(label1, 0, 0);
             tableLayoutPanel1.Controls.Add(this.textSizeBar, 1, 0);
             tableLayoutPanel1.Controls.Add(this.outBox, 0, 2);
-            tableLayoutPanel1.Location = new System.Drawing.Point(512, 0);
+            tableLayoutPanel1.Location = new System.Drawing.Point(123, 27);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 3;
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(478, 500);
+            tableLayoutPanel1.Size = new System.Drawing.Size(677, 473);
             tableLayoutPanel1.TabIndex = 4;
             // 
             // wordWrapBox
@@ -112,7 +116,7 @@
             this.textSizeBar.Minimum = 50;
             this.textSizeBar.Name = "textSizeBar";
             tableLayoutPanel1.SetRowSpan(this.textSizeBar, 2);
-            this.textSizeBar.Size = new System.Drawing.Size(385, 56);
+            this.textSizeBar.Size = new System.Drawing.Size(584, 56);
             this.textSizeBar.SmallChange = 5;
             this.textSizeBar.TabIndex = 2;
             this.textSizeBar.Value = 100;
@@ -127,17 +131,18 @@
             this.outBox.Location = new System.Drawing.Point(3, 65);
             this.outBox.Name = "outBox";
             this.outBox.ReadOnly = true;
-            this.outBox.Size = new System.Drawing.Size(472, 432);
+            this.outBox.Size = new System.Drawing.Size(671, 405);
             this.outBox.TabIndex = 0;
             this.outBox.Text = "";
             // 
             // menuStrip1
             // 
             menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            fileToolStripMenuItem});
+            fileToolStripMenuItem,
+            helpToolStripMenuItem});
             menuStrip1.Location = new System.Drawing.Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new System.Drawing.Size(990, 24);
+            menuStrip1.Size = new System.Drawing.Size(800, 24);
             menuStrip1.TabIndex = 5;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -180,6 +185,29 @@
             this.saveCharacterSetToolStripMenuItem.Text = "Save Character Set...";
             this.saveCharacterSetToolStripMenuItem.Click += new System.EventHandler(this.saveCharacterSetToolStripMenuItem_Click);
             // 
+            // helpToolStripMenuItem
+            // 
+            helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.howDoIUseThisToolStripMenuItem,
+            this.hintsToolStripMenuItem});
+            helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            helpToolStripMenuItem.Text = "Help";
+            // 
+            // howDoIUseThisToolStripMenuItem
+            // 
+            this.howDoIUseThisToolStripMenuItem.Name = "howDoIUseThisToolStripMenuItem";
+            this.howDoIUseThisToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.howDoIUseThisToolStripMenuItem.Text = "How Do I Use This?";
+            this.howDoIUseThisToolStripMenuItem.Click += new System.EventHandler(this.howDoIUseThisToolStripMenuItem_Click);
+            // 
+            // hintsToolStripMenuItem
+            // 
+            this.hintsToolStripMenuItem.Name = "hintsToolStripMenuItem";
+            this.hintsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.hintsToolStripMenuItem.Text = "Hints";
+            this.hintsToolStripMenuItem.Click += new System.EventHandler(this.hintsToolStripMenuItem_Click);
+            // 
             // charsetView
             // 
             this.charsetView.AllowUserToAddRows = false;
@@ -195,13 +223,13 @@
             this.valueDataGridViewTextBoxColumn});
             this.charsetView.DataSource = this.cypherDictionaryBindingSource;
             this.charsetView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.charsetView.Location = new System.Drawing.Point(392, 0);
+            this.charsetView.Location = new System.Drawing.Point(0, 27);
             this.charsetView.MultiSelect = false;
             this.charsetView.Name = "charsetView";
             this.charsetView.RowHeadersVisible = false;
             this.charsetView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.charsetView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.charsetView.Size = new System.Drawing.Size(117, 500);
+            this.charsetView.Size = new System.Drawing.Size(117, 473);
             this.charsetView.TabIndex = 1;
             this.charsetView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.charsetView_CellEndEdit);
             this.charsetView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.charsetView_CellFormatting);
@@ -210,14 +238,6 @@
             this.charsetView.SelectionChanged += new System.EventHandler(this.charsetView_SelectionChanged);
             this.charsetView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.charsetView_KeyDown);
             this.charsetView.Leave += new System.EventHandler(this.charsetView_Leave);
-            // 
-            // saveFileDialog
-            // 
-            this.saveFileDialog.DefaultExt = "txt";
-            // 
-            // openCharsetDialog
-            // 
-            this.openCharsetDialog.Filter = "Text Files|*.txt|All Files|*.*";
             // 
             // codeDataGridViewTextBoxColumn
             // 
@@ -243,6 +263,14 @@
             // 
             this.cypherDictionaryBindingSource.DataSource = typeof(RodinaCrypt.CipherDictionary);
             // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.DefaultExt = "txt";
+            // 
+            // openCharsetDialog
+            // 
+            this.openCharsetDialog.Filter = "Text Files|*.txt|All Files|*.*";
+            // 
             // openImageDialog
             // 
             this.openImageDialog.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif;" +
@@ -252,7 +280,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(990, 500);
+            this.ClientSize = new System.Drawing.Size(800, 500);
             this.Controls.Add(tableLayoutPanel1);
             this.Controls.Add(this.charsetView);
             this.Controls.Add(menuStrip1);
@@ -290,6 +318,8 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.OpenFileDialog openCharsetDialog;
         private System.Windows.Forms.OpenFileDialog openImageDialog;
+        private System.Windows.Forms.ToolStripMenuItem howDoIUseThisToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hintsToolStripMenuItem;
     }
 }
 

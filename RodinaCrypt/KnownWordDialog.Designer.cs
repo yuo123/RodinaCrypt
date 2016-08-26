@@ -29,11 +29,13 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.Label label1;
+            System.Windows.Forms.Label label2;
             this.inputBox = new System.Windows.Forms.TextBox();
             this.lengthLabel = new System.Windows.Forms.Label();
             this.confirmBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -69,7 +71,7 @@
             this.confirmBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.confirmBtn.AutoSize = true;
             this.confirmBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.confirmBtn.Location = new System.Drawing.Point(196, 62);
+            this.confirmBtn.Location = new System.Drawing.Point(196, 75);
             this.confirmBtn.Name = "confirmBtn";
             this.confirmBtn.Size = new System.Drawing.Size(52, 23);
             this.confirmBtn.TabIndex = 3;
@@ -83,12 +85,22 @@
             this.cancelBtn.AutoSize = true;
             this.cancelBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.cancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelBtn.Location = new System.Drawing.Point(12, 62);
+            this.cancelBtn.Location = new System.Drawing.Point(12, 75);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(50, 23);
             this.cancelBtn.TabIndex = 4;
             this.cancelBtn.Text = "Cancel";
             this.cancelBtn.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(12, 59);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(138, 13);
+            label2.TabIndex = 5;
+            label2.Text = "(CTRL+ENTER for newline)";
             // 
             // KnownWordDialog
             // 
@@ -96,7 +108,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelBtn;
-            this.ClientSize = new System.Drawing.Size(260, 97);
+            this.ClientSize = new System.Drawing.Size(260, 110);
+            this.Controls.Add(label2);
             this.Controls.Add(this.cancelBtn);
             this.Controls.Add(this.confirmBtn);
             this.Controls.Add(this.lengthLabel);

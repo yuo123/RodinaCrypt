@@ -117,10 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="label1.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="label2.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
+  <data name="instBox.Text" xml:space="preserve">
+    <value>How To Use:
+This is a tool to decode strange messages found in the game "Rodina", and presented to the player as images.
+
+At first, it might seem like the messages are encrypted, but actually they just use an unusual character set. Their composers clearly did not try to hide their contents.
+
+In order to use this tool, you must first select a message file (in any image format), by selecting "File &gt; Open Message...".
+When you first load the message, the program will try to guess as much as it can - mostly by trying to identify the word "&lt;untranslatable&gt;", which appears in all the messages. it will not get you very far, so after that you will need to do some manual guesswork.
+
+For that task, you have two options: to guess a word based on the current translation, or guess the meaning of a character code.
+
+The initial translation is displayed on the right. If you select one or more characters, then press ENTER, you will be prompted to enter the correct translation and hit ENTER again. The program will adjust the character set to match your input. CTRL+ENTER is a newline.
+
+Selecting a row from the "Character Set" table on the left will highlight all the occurances of the related code in the translation. Note that during the proccess, more than one code may be associated with the same character, but this method will only highlight the characters which were translated from the selected code. In the correct character set, each character has exactly one code.
+
+Also note that these messages use windows-style line endings, aka CRLF, or \r\n, which also means a new line is two characters.
+
+Special Characters:
+\r - carridge return
+\n - linefeed
+EOF - end of file. Used as a buffer at the end of the message to make the image more square. Will always be correctly guessed by the program
+
+You can also save your character set and load saved ones, through the "File" menu. This is useful because multiple messages share the same character set, so you only need to decode one of them, and you've got all of the messages that share the same character set. You can guess which messages share their character set by looking at the images' color pallete.</value>
+  </data>
 </root>

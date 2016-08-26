@@ -17,7 +17,6 @@ namespace RodinaCrypt
     public partial class MainForm : Form
     {
         public const int BLOCK_SIZE = 15;
-        public static readonly char[] freqOrder = { ' ', 'e', 't', 'a', 'o', 'i', 'n', 's', 'r', 'h', 'l', 'd', 'c', 'u', 'm', 'f', 'p', 'g', 'w', 'y', 'b', 'v', 'k', 'x', 'j', 'q', 'z' };
         public const char UNKNOWN_CHAR = '�';
 
         private CipherDictionary dict;
@@ -113,6 +112,8 @@ namespace RodinaCrypt
                     dict.Add(0xFF << 24 | Convert.ToInt32(hex, 16), c);
                 }
             }
+            if (data != null)
+                dict.AddMissingValues(data);
             charsetView.DataSource = dict.BindingList;
         }
 
@@ -160,6 +161,7 @@ namespace RodinaCrypt
             int spaceCode = dicts[0].Find(p => p.MostLikely().Value == ' ').MostLikely().Code;
             dicts.Add(CipherPredictionDictionary.PairFrequencyPrediction(data, codelist, eof));
             dicts.Add(CipherPredictionDictionary.FirstLetterPrediction(data, spaceCode));
+            dicts.Add(CipherPredictionDictionary.KnownWordPrediction(data, "<untranslatable>"));
             preDict = CipherPredictionDictionary.AggregateProbabilities(dicts, codelist);
             dict = preDict.MostLikely();
             dict.AddMissingValues(codelist);
@@ -208,7 +210,11 @@ namespace RodinaCrypt
                 e.Value = (char)26;
                 e.ParsingApplied = true;
             }
-            e.Value = char.ToLower(((string)e.Value)[0]);
+            else
+            {
+                e.Value = char.ToLower(((string)e.Value)[0]);
+                e.ParsingApplied = true;
+            }
         }
 
         private void textSizeBar_Scroll(object sender, EventArgs e)
@@ -271,6 +277,10 @@ namespace RodinaCrypt
 
         private void charsetView_SelectionChanged(object sender, EventArgs e)
         {
+            if (data == null)
+            {
+                return;
+            }
             if (resetRow)
             {
                 charsetView.CurrentCell = charsetView.Rows[curRow].Cells[0];
@@ -388,6 +398,16 @@ namespace RodinaCrypt
                 dict.BindingList.ResetBindings();
                 this.Text = "Rodina Decryptor - " + Path.GetFileNameWithoutExtension(openImageDialog.FileName);
             }
+        }
+
+        private void howDoIUseThisToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new InstructionDialog().Show();
+        }
+
+        private void hintsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new Hints().Show();
         }
     }
 }

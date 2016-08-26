@@ -55,6 +55,18 @@
     <Compile Include="CipherPossibilities.cs" />
     <Compile Include="CipherPredictionDictionary.cs" />
     <Compile Include="DuplicateKeyComparer.cs" />
+    <Compile Include="Hints.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Hints.Designer.cs">
+      <DependentUpon>Hints.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InstructionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InstructionDialog.Designer.cs">
+      <DependentUpon>InstructionDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="KnownWordDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +81,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Hints.resx">
+      <DependentUpon>Hints.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InstructionDialog.resx">
+      <DependentUpon>InstructionDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="KnownWordDialog.resx">
       <DependentUpon>KnownWordDialog.cs</DependentUpon>
     </EmbeddedResource>

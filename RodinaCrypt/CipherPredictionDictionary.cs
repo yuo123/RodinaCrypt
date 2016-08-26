@@ -130,6 +130,64 @@ namespace RodinaCrypt
             return dict;
         }
 
+        public static CipherPredictionDictionary KnownWordPrediction(int[] data, string word)
+        {
+            const double PROBABILITY_PER_CHAR = 0.0625;
+
+            var pd = new CipherPredictionDictionary();
+            int wstart = FindWord(data, word);
+            if (wstart == -1)
+                return pd;
+            for (int i = wstart; i - wstart < word.Length; i++)
+            {
+                pd.Add(data[i]).Add(word[i - wstart], PROBABILITY_PER_CHAR * word.Length);
+            }
+            return pd;
+        }
+
+        private static int FindWord(int[] data, string word)
+        {
+            Dictionary<char, int> wdict = new Dictionary<char, int>();
+            int windex = 0;
+            int i;
+            for (i = 0; i < data.Length && windex < word.Length; i++)
+            {
+                char c = word[windex];
+                if (!wdict.ContainsKey(c)) //if this is the first character of its kind in the word...
+                {
+                    if (!wdict.ContainsValue(data[i])) //...and we're on the first code of its kind in this attempt...
+                    {   //...assume they match
+                        wdict[c] = data[i];
+                        windex++;
+                    }
+                    else
+                    {   //...or if the code was already encountered, reset and try again
+                        i -= windex;
+                        windex = 0;
+                        wdict.Clear();
+                    }
+                }
+                else
+                {   //if we should have already encountered this character...
+                    if (wdict[c] == data[i]) //...and we did, with the same code...
+                    {
+                        windex++; //..keep going
+                    }
+                    else
+                    {   //...or if there is a mismatch, reset and try again
+                        i -= windex;
+                        windex = 0;
+                        wdict.Clear();
+                    }
+                }
+            }
+
+            if (windex < word.Length) //index of less then the word length means we didn't find all of it
+                return -1;
+            else
+                return i - windex;
+        }
+
         public static int[] CalcSingleFreqs(int[] data, CipherPair eof = null)
         {
             Dictionary<int, int> freqs = new Dictionary<int, int>();
